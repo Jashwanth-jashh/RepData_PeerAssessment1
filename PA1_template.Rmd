@@ -73,7 +73,7 @@ print(head(stepsPerDay))
 ```
 - lets plot histogram for number of steps taken per day
 
-```{r hist1,fig.height=4}
+```{r totalstepsperday,fig.height=4}
 hist(stepsPerDay$steps,breaks=20,main="Total Steps Per Day",xlab="steps")
 ```
 
@@ -96,7 +96,7 @@ print(head(avgStepsInterval))
 
 Let's plot the time series plot using basic plot function with type="l"
 
-```{r, avgstepsInt,fig.height=4}
+```{r avgstepsperInterval,fig.height=4}
 plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",ylab="Steps",main="Average Steps Per Interval",col="blue")
 ```
 
@@ -114,7 +114,7 @@ So, at interval 835, i.e max  average steps of 206  has been recorded
 
 lets verify this graphically.
 
-```{r plot2,fig.height=4}
+```{r graphverifyformaxsteps,fig.height=4}
 plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",ylab="Steps",main="Average Steps Per Interval",col="blue")
 abline(v=853)
 ```
@@ -168,7 +168,7 @@ names(newstepsPerDay)=c("Date","steps")
  
 - lets plot histogram 
 
-```{r plot3,fig.height=4,cache=TRUE}
+```{r stepsperdaywithimputednas,fig.height=4,cache=TRUE}
 hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day")
 
 ```
@@ -183,7 +183,7 @@ print(x)
  
  - Let's compare the histograms of our original data and our new data.
  
-```{r compplot,cache=TRUE,fig.width=10,fig.height=5}
+```{r comparisonplot,cache=TRUE,fig.width=10,fig.height=5}
 par(mfrow=c(1,2))
 hist(stepsPerDay$steps,breaks=20,main="Total Steps Per Day(with NA's)",xlab="steps")
 hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day(with imputed NA values)")
