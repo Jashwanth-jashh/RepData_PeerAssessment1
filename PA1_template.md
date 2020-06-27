@@ -64,17 +64,6 @@ uh oh! it's of character class.
 library(lubridate)
 ```
 
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     date, intersect, setdiff, union
-```
-
 
 
 ```r
@@ -148,32 +137,12 @@ print(head(stepsPerDay))
 hist(stepsPerDay$steps,breaks=20,main="Total Steps Per Day",xlab="steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](PA1_template_files/figure-html/hist1-1.png)<!-- -->
 
 - calculating mean and median of number of steps taken per day 
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 meanMedian <- summarise(stepsPerDay,Mean=mean(stepsPerDay$steps),Median=median(stepsPerDay$steps))
 print(meanMedian)
 ```
@@ -211,7 +180,7 @@ Let's plot the time series plot using basic plot function with type="l"
 plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",ylab="Steps",main="Average Steps Per Interval",col="blue")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](PA1_template_files/figure-html/avgstepsInt-1.png)<!-- -->
 
 - Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -239,7 +208,7 @@ plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",y
 abline(v=853)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot2-1.png)<!-- -->
 
 hence, we can see the max average steps at steps=206.1 !
 
@@ -315,7 +284,7 @@ names(newstepsPerDay)=c("Date","steps")
 hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot3-1.png)<!-- -->
 
 - The new Mean and Median for our new dataset is 
 
@@ -340,7 +309,7 @@ hist(stepsPerDay$steps,breaks=20,main="Total Steps Per Day(with NA's)",xlab="ste
 hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day(with imputed NA values)")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](PA1_template_files/figure-html/compplot-1.png)<!-- -->
 
 Let's compare mean and median of both old and new data
 
@@ -424,7 +393,7 @@ library(ggplot2)
 ggplot(totalData,aes(x=interval,y=steps))+facet_grid(.~day)+geom_line(lty=1)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](PA1_template_files/figure-html/panelplot-1.png)<!-- -->
 
 
 

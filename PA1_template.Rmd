@@ -23,7 +23,7 @@ print(head(data))
 
 - let's check the dimensions of the data
 
-```{r,cache=TRUE,echo=TRUE}
+```{r dim ,cache=TRUE,echo=TRUE}
 print(dim(data))
 ```
 
@@ -31,7 +31,7 @@ so there are 17568 rows and 3 columns in the dataset.
 
 - lets check the class of date in our data
 
-```{r,cache=TRUE,echo=TRUE}
+```{r date,cache=TRUE,echo=TRUE}
 print(class(data$date))
 ```
 
@@ -43,7 +43,7 @@ library(lubridate)
 ```
 
 
-```{r}
+```{r ymd}
 data$date=ymd(data$date)
 origData$date=ymd(origData$date)
 print(class(data$date))
@@ -56,7 +56,7 @@ In a day there are 24*60= 1440 minutes and number of steps are calculated for ev
 
 - lets look at NULL Values in our data (steps)
  
-```{r}
+```{r nas}
 cat("Total Null Values in steps =",sum(is.na(data$steps)))
 cat("Its about",round(mean(is.na(data$steps))*100,2),"% of the total data recorded!")
 
@@ -66,19 +66,19 @@ cat("Its about",round(mean(is.na(data$steps))*100,2),"% of the total data record
 
 To answer this question ,lets get total steps per day using aggregate function .
 
-```{r}
+```{r totsteps}
 stepsPerDay<-with(data,aggregate(steps,by=list(date),sum,na.rm=T))
 names(stepsPerDay)=c("Date","steps")
 print(head(stepsPerDay))
 ```
 - lets plot histogram for number of steps taken per day
 
-```{r,fig.height=4}
+```{r hist1,fig.height=4}
 hist(stepsPerDay$steps,breaks=20,main="Total Steps Per Day",xlab="steps")
 ```
 
 - calculating mean and median of number of steps taken per day 
-```{r}
+```{r meanmedian}
 library(dplyr)
 meanMedian <- summarise(stepsPerDay,Mean=mean(stepsPerDay$steps),Median=median(stepsPerDay$steps))
 print(meanMedian)
@@ -89,14 +89,14 @@ print(meanMedian)
 To answer this question , lets aggregate our data to show average number of steps
 per interval.
 
-```{r}
+```{r avgsteps}
 avgStepsInterval <- aggregate(steps~interval,data,mean)
 print(head(avgStepsInterval))
 ```
 
 Let's plot the time series plot using basic plot function with type="l"
 
-```{r,fig.height=4}
+```{r, avgstepsInt,fig.height=4}
 plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",ylab="Steps",main="Average Steps Per Interval",col="blue")
 ```
 
@@ -104,7 +104,7 @@ plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",y
 
 let's find out what is the maximum average steps and the interval for it 
 
-```{r}
+```{r maxsteps}
 maxSteps <- max(avgStepsInterval$steps)
 index <- which(avgStepsInterval$steps==maxSteps)
 print(avgStepsInterval[index,])
@@ -114,7 +114,7 @@ So, at interval 835, i.e max  average steps of 206  has been recorded
 
 lets verify this graphically.
 
-```{r,fig.height=4}
+```{r plot2,fig.height=4}
 plot(avgStepsInterval$interval,avgStepsInterval$steps,type="l",xlab="Interval",ylab="Steps",main="Average Steps Per Interval",col="blue")
 abline(v=853)
 ```
@@ -125,7 +125,7 @@ hence, we can see the max average steps at steps=206.1 !
 
 - Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NA's)
 
-```{r}
+```{r totalnas}
 totalNAs<- sum(is.na(data$steps))
 print(totalNAs)
 ```
@@ -137,7 +137,7 @@ so there are 2304 rows with missing values in steps column, which is about 13% o
 Let's fill these NA's to the average steps of that particular interval 
 which is stored in "avgStepsInterval" dataframe.
 
-```{r,cache=TRUE}
+```{r naind,cache=TRUE}
 
 naIndices <- which(is.na(data$steps))  # indices of NA's
 
@@ -153,14 +153,14 @@ print(head(data))
 Now NA's are filled with the average steps for its respective intervals.
 
 Lets confirm that we not have any missing values.
-```{r}
+```{r sumna}
 print(sum(is.na(data$steps)))
 ```
 
 *Boom !* we have no missing values in our dataset now !
 
 lets aggregate total steps per day with out new dataset.
-```{r}
+```{r newstepsperday}
 newstepsPerDay<-with(data,aggregate(steps,by=list(date),sum))
 names(newstepsPerDay)=c("Date","steps")
 
@@ -168,14 +168,14 @@ names(newstepsPerDay)=c("Date","steps")
  
 - lets plot histogram 
 
-```{r,fig.height=4,cache=TRUE}
+```{r plot3,fig.height=4,cache=TRUE}
 hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day")
 
 ```
 
 - The new Mean and Median for our new dataset is 
 
-```{r,cache=TRUE}
+```{r summary,cache=TRUE}
 x <- summarise(newstepsPerDay,Mean=mean(newstepsPerDay$steps),Median=median(newstepsPerDay$steps))
 print(x)
 ```
@@ -183,7 +183,7 @@ print(x)
  
  - Let's compare the histograms of our original data and our new data.
  
-```{r,cache=TRUE,fig.width=10,fig.height=5}
+```{r compplot,cache=TRUE,fig.width=10,fig.height=5}
 par(mfrow=c(1,2))
 hist(stepsPerDay$steps,breaks=20,main="Total Steps Per Day(with NA's)",xlab="steps")
 hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day(with imputed NA values)")
@@ -191,7 +191,7 @@ hist(newstepsPerDay$steps,breaks=20,xlab="Steps",main="Total steps per day(with 
 
 Let's compare mean and median of both old and new data
 
-```{r}
+```{r meanmediancompare}
 values<-data.frame()
 values <- summarise(values,newMean=mean(newstepsPerDay$steps),
                     newMedian=median(newstepsPerDay$steps),
@@ -206,7 +206,7 @@ This is the effect of imputing the missing values , both mean and median values 
 
 Lets create a factor variable column to our data
 
-```{r}
+```{r weekdayweekends} 
 data$day <- rep(0,nrow(data))
 for(i in 1:nrow(data))  {
   if( (wday(data[i,]$date)==1) | (wday(data[i,]$date)==7)){
@@ -226,7 +226,7 @@ now we have a factor variable column with two levels, weekday and weekend .
 
 lets subset weekday day data and weekend data seperately and aggregate them with average steps per interval.
 
-```{r}
+```{r wkdaywkend}
 weekdaydata <- subset(data,day=="weekday")
 weekenddata <- subset(data,day=="weekend")
 
@@ -241,7 +241,7 @@ totalData<- rbind(weekdayMean,weekendMean)
 
 Lets plot the time series graphs of average steps of weekday and weekend data.
 
-```{r,fig.width=10,fig.height=4}
+```{r panelplot,fig.width=10,fig.height=4}
 library(ggplot2)
 ggplot(totalData,aes(x=interval,y=steps))+facet_grid(.~day)+geom_line(lty=1)
 ```

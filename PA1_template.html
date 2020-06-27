@@ -401,11 +401,6 @@ print(head(data))</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
 <p>uh oh! it’s of character class. - lets convert it to date class using <a href="https://cran.r-project.org/web/packages/lubridate/lubridate.pdf">lubridate</a> package!</p>
 <pre class="r"><code>library(lubridate)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     date, intersect, setdiff, union</code></pre>
 <pre class="r"><code>data$date=ymd(data$date)
 origData$date=ymd(origData$date)
 print(class(data$date))</code></pre>
@@ -446,16 +441,8 @@ print(head(stepsPerDay))</code></pre>
 <ul>
 <li>calculating mean and median of number of steps taken per day</li>
 </ul>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>meanMedian &lt;- summarise(stepsPerDay,Mean=mean(stepsPerDay$steps),Median=median(stepsPerDay$steps))
+<pre class="r"><code>library(dplyr)
+meanMedian &lt;- summarise(stepsPerDay,Mean=mean(stepsPerDay$steps),Median=median(stepsPerDay$steps))
 print(meanMedian)</code></pre>
 <pre><code>##      Mean Median
 ## 1 9354.23  10395</code></pre>
